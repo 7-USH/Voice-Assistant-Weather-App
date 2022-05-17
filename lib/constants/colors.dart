@@ -6,5 +6,26 @@ Color greyColor = const Color(0xff85858e);
 Color whiteColor = const Color(0xffffffff);
 Color brown = const Color(0xff342019);
 Color bgColor = const Color(0xff273950);
-Color darkBgColor = const Color(0xff1D2B3D);
+Color darkBgColor = const Color(0xff23263D);
 Color textColor = const Color(0xff23B3F2);
+
+List<BoxShadow> kBoxShadows = [
+  BoxShadow(
+      color: Colors.black.withOpacity(0.5),
+      offset: const Offset(0.6, 4),
+      spreadRadius: 1,
+      blurRadius: 8),
+  BoxShadow(
+      color: Colors.white.withOpacity(0.5),
+      offset: const Offset(-2, -4),
+      spreadRadius: -1,
+      blurRadius: 18),
+];
+
+List<BoxShadow> kButtonShadows = [
+  BoxShadow(
+      color: Colors.black.withOpacity(0.2),
+      offset: const Offset(0.6, 4),
+      spreadRadius: 1,
+      blurRadius: 8)
+];

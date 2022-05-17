@@ -16,22 +16,73 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
         backgroundColor: bgColor,
+        bottomNavigationBar: Container(
+          height: 80,
+          decoration: BoxDecoration(color:  Colors.transparent),
+          child: Padding(
+            padding: const EdgeInsets.all(10.0),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              children: [
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.map_outlined,
+                      color: Colors.white,
+                      size: 40,
+                    )),
+                Container(
+                  height: 50,
+                  width: 50,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(25),
+                    color: textColor,
+                    boxShadow: kButtonShadows
+                  ),
+                  
+                  child: Center(
+                    child: IconButton(
+                        onPressed: () {},
+                        icon: const Icon(
+                          Icons.mic,
+                          color: Colors.white,
+                          size: 30,
+                        )),
+                  ),
+                ),
+                IconButton(
+                    onPressed: () {},
+                    icon: const Icon(
+                      Icons.person_outline,
+                      color: Colors.white,
+                      size: 40,
+                    ))
+              ],
+            ),
+          ),
+        ),
         body: SafeArea(
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.center,
             children: [
-              Text(
-                "03-Mar-2022",
-                style: appText(
-                    color: textColor, size: 15, weight: FontWeight.bold),
-              ),
-              const SizedBox(
-                height: 10,
-              ),
-              Text(
-                "Panjim, Goa",
-                style: appText(
-                    color: Colors.white, size: 35, weight: FontWeight.w600),
+              FittedBox(
+                child: Column(
+                  children: [
+                    Text(
+                      "03-Mar-2022",
+                      style: appText(
+                          color: textColor, size: 15, weight: FontWeight.bold),
+                    ),
+                    const SizedBox(
+                      height: 10,
+                    ),
+                    Text(
+                      "Panjim, Goa",
+                      style: appText(
+                          color: Colors.white, size: 35, weight: FontWeight.w600),
+                    ),
+                  ],
+                ),
               ),
               const SizedBox(
                 height: 50,
