@@ -16,10 +16,10 @@ List<BoxShadow> kBoxShadows = [
       spreadRadius: 1,
       blurRadius: 8),
   BoxShadow(
-      color: Colors.white.withOpacity(0.5),
+      color: Colors.white.withOpacity(0.4),
       offset: const Offset(-2, -4),
-      spreadRadius: -1,
-      blurRadius: 18),
+      spreadRadius: -2,
+      blurRadius: 15),
 ];
 
 List<BoxShadow> kButtonShadows = [

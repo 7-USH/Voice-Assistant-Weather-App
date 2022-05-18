@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
+import 'package:weather_app/screens/voice.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
@@ -18,7 +19,10 @@ class _HomePageState extends State<HomePage> {
         backgroundColor: bgColor,
         bottomNavigationBar: Container(
           height: 80,
-          decoration: BoxDecoration(color:  Colors.transparent),
+          decoration: BoxDecoration(
+              color: darkBgColor,
+              borderRadius: const BorderRadius.only(
+                  topRight: Radius.circular(15), topLeft: Radius.circular(15))),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
@@ -35,14 +39,17 @@ class _HomePageState extends State<HomePage> {
                   height: 50,
                   width: 50,
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
-                    color: textColor,
-                    boxShadow: kButtonShadows
-                  ),
-                  
+                      borderRadius: BorderRadius.circular(25),
+                      color: textColor,
+                      boxShadow: kBoxShadows),
                   child: Center(
                     child: IconButton(
-                        onPressed: () {},
+                        onPressed: () {
+                          Navigator.push(context,
+                              MaterialPageRoute(builder: (_) {
+                            return const VoicePage();
+                          }));
+                        },
                         icon: const Icon(
                           Icons.mic,
                           color: Colors.white,
@@ -79,7 +86,9 @@ class _HomePageState extends State<HomePage> {
                     Text(
                       "Panjim, Goa",
                       style: appText(
-                          color: Colors.white, size: 35, weight: FontWeight.w600),
+                          color: Colors.white,
+                          size: 35,
+                          weight: FontWeight.w600),
                     ),
                   ],
                 ),
@@ -89,7 +98,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Center(
                   child: Image.asset(
-                "assets/sun-clouds-rain.png",
+                "assets/sun.png",
                 scale: 0.7,
               )),
               const SizedBox(
@@ -99,7 +108,7 @@ class _HomePageState extends State<HomePage> {
                 "  29°",
                 textAlign: TextAlign.left,
                 style: numText(
-                    color: textColor, size: 80, weight: FontWeight.bold),
+                    color: textColor, size: 100, weight: FontWeight.bold),
               ),
               Text(
                 "Cloudy",
