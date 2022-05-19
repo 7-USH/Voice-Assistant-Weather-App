@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/screens/voice.dart';
@@ -31,17 +32,18 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                     onPressed: () {},
                     icon: const Icon(
-                      Icons.map_outlined,
+                      FontAwesomeIcons.mapLocationDot,
                       color: Colors.white,
-                      size: 40,
+                      size: 30,
                     )),
                 Container(
-                  height: 50,
-                  width: 50,
+                  height: 60,
+                  width: 60,
                   decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(25),
                       color: textColor,
-                      boxShadow: kBoxShadows),
+                      shape: BoxShape.circle,
+                      boxShadow: kButtonShadows
+                  ),
                   child: Center(
                     child: IconButton(
                         onPressed: () {
@@ -51,18 +53,18 @@ class _HomePageState extends State<HomePage> {
                           }));
                         },
                         icon: const Icon(
-                          Icons.mic,
+                          FontAwesomeIcons.microphone,
                           color: Colors.white,
-                          size: 30,
+                          size: 25,
                         )),
                   ),
                 ),
                 IconButton(
                     onPressed: () {},
                     icon: const Icon(
-                      Icons.person_outline,
+                      FontAwesomeIcons.bars,
                       color: Colors.white,
-                      size: 40,
+                      size: 30,
                     ))
               ],
             ),
@@ -98,7 +100,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Center(
                   child: Image.asset(
-                "assets/sun.png",
+                "assets/lightning.png",
                 scale: 0.7,
               )),
               const SizedBox(

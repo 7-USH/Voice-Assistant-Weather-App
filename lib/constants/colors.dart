@@ -11,15 +11,15 @@ Color textColor = const Color(0xff23B3F2);
 
 List<BoxShadow> kBoxShadows = [
   BoxShadow(
-      color: Colors.black.withOpacity(0.5),
-      offset: const Offset(0.6, 4),
-      spreadRadius: 1,
-      blurRadius: 8),
+      color: darkBgColor,
+      offset: const Offset(5, 10),
+      spreadRadius: 3,
+      blurRadius: 10),
   BoxShadow(
-      color: Colors.white.withOpacity(0.4),
-      offset: const Offset(-2, -4),
-      spreadRadius: -2,
-      blurRadius: 15),
+      color: Colors.white.withOpacity(0.8),
+      offset: const Offset(-5, -1),
+      spreadRadius: -1,
+      blurRadius: 15)
 ];
 
 List<BoxShadow> kButtonShadows = [

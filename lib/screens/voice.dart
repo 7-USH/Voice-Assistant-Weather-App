@@ -1,6 +1,7 @@
 // ignore_for_file: sized_box_for_whitespace
 
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 
@@ -24,21 +25,22 @@ class _VoicePageState extends State<VoicePage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               Container(
-                height: 50,
-                width: 50,
+                height: 60,
+                width: 60,
                 decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(25),
+                    shape: BoxShape.circle,
                     color: textColor,
-                    boxShadow: kBoxShadows),
+                    boxShadow: kButtonShadows
+                ),
                 child: Center(
                   child: IconButton(
                       onPressed: () {
 
                       },
                       icon: const Icon(
-                        Icons.mic,
+                        FontAwesomeIcons.microphone,
                         color: Colors.white,
-                        size: 30,
+                        size: 25,
                       )),
                 ),
               ),
@@ -59,7 +61,7 @@ class _VoicePageState extends State<VoicePage> {
           children: [
           Text("Hello, \nmy name is Cody",style: botFont(color: Colors.white, size: 38, weight: FontWeight.w800),),
           const SizedBox(height: 20,),
-          Text("How can I help you?",style: botFont(color: Colors.grey.withOpacity(0.7), size: 20, weight: FontWeight.w600),)
+          Text("How can I help you?",style: botFont(color: Colors.grey.withOpacity(1), size: 20, weight: FontWeight.w600),)
         ]),
       ),
     );
