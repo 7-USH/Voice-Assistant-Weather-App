@@ -19,7 +19,7 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: bgColor,
         bottomNavigationBar: Container(
-          height: 80,
+          height: 90,
           decoration: BoxDecoration(
               color: darkBgColor,
               borderRadius: const BorderRadius.only(
@@ -36,27 +36,26 @@ class _HomePageState extends State<HomePage> {
                       color: Colors.white,
                       size: 30,
                     )),
-                Container(
-                  height: 60,
-                  width: 60,
-                  decoration: BoxDecoration(
-                      color: textColor,
-                      shape: BoxShape.circle,
-                      boxShadow: kButtonShadows
-                  ),
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(context, MaterialPageRoute(builder: (_) {
+                      return const VoicePage();
+                    }));
+                  },
                   child: Center(
-                    child: IconButton(
-                        onPressed: () {
-                          Navigator.push(context,
-                              MaterialPageRoute(builder: (_) {
-                            return const VoicePage();
-                          }));
-                        },
-                        icon: const Icon(
-                          FontAwesomeIcons.microphone,
-                          color: Colors.white,
-                          size: 25,
-                        )),
+                    child: Container(
+                      height: 60,
+                      width: 60,
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(30),
+                          color: blobColor,
+                          gradient: LinearGradient(
+                              colors: [blobColor, blobColor.withOpacity(0.6)])),
+                      child: const Icon(
+                        FontAwesomeIcons.microphone,
+                        color: Colors.white,
+                      ),
+                    ),
                   ),
                 ),
                 IconButton(
@@ -100,7 +99,7 @@ class _HomePageState extends State<HomePage> {
               ),
               Center(
                   child: Image.asset(
-                "assets/lightning.png",
+                "assets/sun.png",
                 scale: 0.7,
               )),
               const SizedBox(

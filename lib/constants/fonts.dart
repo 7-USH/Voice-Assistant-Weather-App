@@ -16,3 +16,12 @@ TextStyle botFont(
     {required Color color, required double size, required FontWeight weight}) {
   return GoogleFonts.roboto(color: color, fontSize: size, fontWeight: weight,shadows: kButtonShadows);
 }
+
+TextStyle messageFont(
+    {required Color color, required double size, required FontWeight weight}) {
+  return GoogleFonts.roboto(
+      color: color,
+      fontSize: size,
+      fontWeight: weight,
+  );
+}

@@ -8,18 +8,18 @@ Color brown = const Color(0xff342019);
 Color bgColor = const Color(0xff273950);
 Color darkBgColor = const Color(0xff23263D);
 Color textColor = const Color(0xff23B3F2);
+Color blobColor = const Color(0xff49A8F3);
+Color botBlobColor = const Color(0xff272B3E);
 
 List<BoxShadow> kBoxShadows = [
   BoxShadow(
       color: darkBgColor,
       offset: const Offset(5, 10),
       spreadRadius: 3,
-      blurRadius: 10),
+      blurRadius: 12),
   BoxShadow(
       color: Colors.white.withOpacity(0.8),
-      offset: const Offset(-5, -1),
-      spreadRadius: -1,
-      blurRadius: 15)
+      blurRadius: 5)
 ];
 
 List<BoxShadow> kButtonShadows = [
