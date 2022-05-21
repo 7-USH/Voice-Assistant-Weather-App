@@ -10,6 +10,7 @@ import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:weather_app/models/command.dart';
+import 'package:weather_app/widgets/glassbox.dart';
 import 'package:weather_app/widgets/messageblob.dart';
 
 class VoicePage extends StatefulWidget {
@@ -23,19 +24,27 @@ class _VoicePageState extends State<VoicePage> {
   late SpeechToText _speechToText;
   bool _isListening = false;
   bool onstatus = false;
+  double _height = 0;
+  Color red = Colors.red;
 
-  List<Command> messages = [Command(text: "Hey, Ohaio")];
+  final ItemPositionsListener itemPositionsListener =
+      ItemPositionsListener.create();
+
+  List<Command> messages = [Command(text: "Hello !")];
   String _text = "JUMBO";
   final ItemScrollController _scrollController = ItemScrollController();
+  Enum who = Who.user;
 
   @override
   void initState() {
-    _speechToText = SpeechToText();
     super.initState();
+    _speechToText = SpeechToText();
   }
 
   @override
   Widget build(BuildContext context) {
+    final size =MediaQuery.of(context).size;
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: AvatarGlow(
@@ -53,8 +62,12 @@ class _VoicePageState extends State<VoicePage> {
               decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(30),
                   color: blobColor,
-                  gradient: LinearGradient(
-                      colors: [blobColor, blobColor.withOpacity(0.6)])),
+                  gradient: LinearGradient(colors: [
+                    _isListening ? blobColor : red,
+                    _isListening
+                        ? blobColor.withOpacity(0.6)
+                        : red.withOpacity(0.6)
+                  ])),
               child: Icon(
                 _isListening ? FontAwesomeIcons.microphone : Icons.mic_off,
                 color: Colors.white,
@@ -83,30 +96,38 @@ class _VoicePageState extends State<VoicePage> {
             style: messageFont(
                 color: Colors.white54, size: 20, weight: FontWeight.w600),
           ),
-          Stack(
-            children: [
-              Container(
-                  height: 450,
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  alignment: Alignment.topRight,
-                  child: NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification: (overscroll) {
-                      overscroll.disallowIndicator();
-                      return true;
-                    },
-                    child: ScrollablePositionedList.builder(
-                        itemScrollController: _scrollController,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: messages.length,
-                        itemBuilder: (context, index) {
-                          return MessageBlob(command: messages[index]);
-                        }),
-                  )),
-            ],
-          )
+          Stack(children: [
+            Container(
+                height: size.height/2,
+                margin: EdgeInsets.only(top: 20),
+                decoration: BoxDecoration(
+                  color: Colors.transparent,
+                ),
+                alignment: Alignment.topRight,
+                child: NotificationListener<OverscrollIndicatorNotification>(
+                  onNotification: (overscroll) {
+                    overscroll.disallowIndicator();
+                    return true;
+                  },
+                  child: ScrollablePositionedList.builder(
+                      itemPositionsListener: itemPositionsListener,
+                      itemScrollController: _scrollController,
+                      physics: AlwaysScrollableScrollPhysics(),
+                      scrollDirection: Axis.vertical,
+                      itemCount: messages.length,
+                      itemBuilder: (context, index) {
+                        if (index % 2 == 0) {
+                          who = Who.bot;
+                        } else {
+                          who = Who.user;
+                        }
+                        return MessageBlob(command: messages[index],who: who,);
+                      }),
+                )),
+            GlassBox(
+              height: _height,
+            ),
+          ])
         ]),
       ),
     );
@@ -115,33 +136,39 @@ class _VoicePageState extends State<VoicePage> {
   void _listen() async {
     if (!_isListening) {
       bool available = await _speechToText.initialize(
-          onStatus: (val) {
-            print('OnStatus : $val');
-          },
-          onError: (val) {
-            print('OnError : $val');
-          },
-          debugLogging: true);
+        onStatus: (val) {
+          print('OnStatus : $val');
+          if (val == "notListening" || val == "done") {
+            _isListening = false;
+            setState(() {});
+          }
+        },
+        onError: (val) {
+          print('OnError : $val');
+        },
+      );
 
       if (available) {
         setState(() {
           _isListening = true;
         });
+        bool insert = true;
         _speechToText.listen(
-            cancelOnError: true,
-            pauseFor: Duration(seconds: 1),
-            listenFor: Duration(seconds: 3),
-            listenMode: ListenMode.deviceDefault,
             onResult: (result) => setState(() {
                   _text = result.recognizedWords;
-                  if (_text != "") {
+                  _isListening = false;
+                  if (_text != "" && insert) {
                     messages.add(Command(text: _text));
-
-                    setState(() {});
+                    insert = !insert;
                     _scrollController.scrollTo(
-                        index: messages.length,
+                        index: messages.length - 1,
                         curve: Curves.easeIn,
                         duration: Duration(milliseconds: 1000));
+                    if (itemPositionsListener
+                            .itemPositions.value.first.itemLeadingEdge <
+                        0) {
+                      _height = 50;
+                    }
                   }
                 }));
       }

@@ -14,8 +14,10 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
+  
   @override
   Widget build(BuildContext context) {
+    final size = MediaQuery.of(context).size;
     return Scaffold(
         backgroundColor: bgColor,
         bottomNavigationBar: Container(
@@ -52,7 +54,7 @@ class _HomePageState extends State<HomePage> {
                           gradient: LinearGradient(
                               colors: [blobColor, blobColor.withOpacity(0.6)])),
                       child: const Icon(
-                        FontAwesomeIcons.microphone,
+                        FontAwesomeIcons.microphoneLines,
                         color: Colors.white,
                       ),
                     ),
@@ -88,19 +90,19 @@ class _HomePageState extends State<HomePage> {
                       "Panjim, Goa",
                       style: appText(
                           color: Colors.white,
-                          size: 35,
+                          size: size.height/25,
                           weight: FontWeight.w600),
                     ),
                   ],
                 ),
               ),
-              const SizedBox(
-                height: 50,
+              SizedBox(
+                height: size.height/35,
               ),
               Center(
                   child: Image.asset(
                 "assets/sun.png",
-                scale: 0.7,
+                scale: size.height/1200,
               )),
               const SizedBox(
                 height: 20,
@@ -109,13 +111,13 @@ class _HomePageState extends State<HomePage> {
                 "  29°",
                 textAlign: TextAlign.left,
                 style: numText(
-                    color: textColor, size: 100, weight: FontWeight.bold),
+                    color: textColor, size: size.height/8, weight: FontWeight.bold),
               ),
               Text(
                 "Cloudy",
                 style: appText(
-                    color: textColor, size: 20, weight: FontWeight.w600),
-              )
+                    color: textColor, size: size.height/35, weight: FontWeight.w600),
+              ),
             ],
           ),
         ));
