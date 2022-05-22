@@ -1,7 +1,4 @@
 // ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_element, avoid_print, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, unused_field
-
-import 'dart:ui';
-
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -10,6 +7,7 @@ import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:weather_app/models/command.dart';
+import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/widgets/glassbox.dart';
 import 'package:weather_app/widgets/messageblob.dart';
 
@@ -26,14 +24,13 @@ class _VoicePageState extends State<VoicePage> {
   bool onstatus = false;
   double _height = 0;
   Color red = Colors.red;
-
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
-
-  List<Command> messages = [Command(text: "Hello !")];
-  String _text = "JUMBO";
+  List<Command> messages = [Command(text: "Good morning")];
+  late String _text;
   final ItemScrollController _scrollController = ItemScrollController();
   Enum who = Who.user;
+  WeatherDetails weatherDetails = WeatherDetails();
 
   @override
   void initState() {
@@ -41,10 +38,13 @@ class _VoicePageState extends State<VoicePage> {
     _speechToText = SpeechToText();
   }
 
+  Future<String> getDetails(String query) async {
+    return await weatherDetails.getData(query);
+  }
+
   @override
   Widget build(BuildContext context) {
-    final size =MediaQuery.of(context).size;
-
+    final size = MediaQuery.of(context).size;
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
       floatingActionButton: AvatarGlow(
@@ -98,7 +98,7 @@ class _VoicePageState extends State<VoicePage> {
           ),
           Stack(children: [
             Container(
-                height: size.height/2,
+                height: size.height / 2,
                 margin: EdgeInsets.only(top: 20),
                 decoration: BoxDecoration(
                   color: Colors.transparent,
@@ -121,7 +121,10 @@ class _VoicePageState extends State<VoicePage> {
                         } else {
                           who = Who.user;
                         }
-                        return MessageBlob(command: messages[index],who: who,);
+                        return MessageBlob(
+                          command: messages[index],
+                          who: who,
+                        );
                       }),
                 )),
             GlassBox(
@@ -152,14 +155,18 @@ class _VoicePageState extends State<VoicePage> {
         setState(() {
           _isListening = true;
         });
-        bool insert = true;
-        _speechToText.listen(
+        await _speechToText.listen(
+            cancelOnError: true,
+            partialResults: false,
             onResult: (result) => setState(() {
                   _text = result.recognizedWords;
                   _isListening = false;
-                  if (_text != "" && insert) {
+                  if (_text != "") {
                     messages.add(Command(text: _text));
-                    insert = !insert;
+                    if (_text.contains("weather") ||
+                        _text.contains("Weather")) {
+                      getDetails(_text).then((value) => print(value));
+                    }
                     _scrollController.scrollTo(
                         index: messages.length - 1,
                         curve: Curves.easeIn,

@@ -41,7 +41,7 @@ class _MessageBlobState extends State<MessageBlob> {
             widget.command.text,
             textAlign: TextAlign.justify,
             style: messageFont(
-                color: Colors.white, size: 20, weight: FontWeight.normal),
+                color: Colors.white, size: 18, weight: FontWeight.normal),
           ),
         )
       ]),
