@@ -1,6 +1,7 @@
 class Command {
   String text;
-  Command({required this.text});
+  Who who;
+  Command({required this.text,required this.who});
 }
 
 enum Who {

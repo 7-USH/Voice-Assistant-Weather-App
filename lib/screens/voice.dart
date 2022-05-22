@@ -8,6 +8,7 @@ import 'package:weather_app/constants/fonts.dart';
 import 'package:speech_to_text/speech_to_text.dart';
 import 'package:weather_app/models/command.dart';
 import 'package:weather_app/models/weather.dart';
+import 'package:weather_app/models/weatherModel.dart';
 import 'package:weather_app/widgets/glassbox.dart';
 import 'package:weather_app/widgets/messageblob.dart';
 
@@ -26,7 +27,7 @@ class _VoicePageState extends State<VoicePage> {
   Color red = Colors.red;
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
-  List<Command> messages = [Command(text: "Good morning")];
+  List<Command> messages = [Command(text: "Good morning", who: Who.bot)];
   late String _text;
   final ItemScrollController _scrollController = ItemScrollController();
   Enum who = Who.user;
@@ -38,7 +39,7 @@ class _VoicePageState extends State<VoicePage> {
     _speechToText = SpeechToText();
   }
 
-  Future<String> getDetails(String query) async {
+  Future<dynamic> getDetails(String query) async {
     return await weatherDetails.getData(query);
   }
 
@@ -116,14 +117,9 @@ class _VoicePageState extends State<VoicePage> {
                       scrollDirection: Axis.vertical,
                       itemCount: messages.length,
                       itemBuilder: (context, index) {
-                        if (index % 2 == 0) {
-                          who = Who.bot;
-                        } else {
-                          who = Who.user;
-                        }
                         return MessageBlob(
                           command: messages[index],
-                          who: who,
+                          who: messages[index].who,
                         );
                       }),
                 )),
@@ -162,10 +158,18 @@ class _VoicePageState extends State<VoicePage> {
                   _text = result.recognizedWords;
                   _isListening = false;
                   if (_text != "") {
-                    messages.add(Command(text: _text));
+                    messages.add(Command(text: _text.trim(), who: Who.user));
+
                     if (_text.contains("weather") ||
                         _text.contains("Weather")) {
-                      getDetails(_text).then((value) => print(value));
+                      getDetails(_text).then((value) {
+                        var result = WeatherModel.fromJson(value);
+                        setState(() {
+                          String? description = result.weather?.description;
+                          messages.add(Command(
+                              text: description ?? "badlapur", who: Who.bot));
+                        });
+                      });
                     }
                     _scrollController.scrollTo(
                         index: messages.length - 1,
@@ -173,7 +177,7 @@ class _VoicePageState extends State<VoicePage> {
                         duration: Duration(milliseconds: 1000));
                     if (itemPositionsListener
                             .itemPositions.value.first.itemLeadingEdge <
-                        0) {
+                        1) {
                       _height = 50;
                     }
                   }
