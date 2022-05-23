@@ -1,6 +1,5 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
-import 'package:weather_app/screens/homepage.dart';
 import 'package:weather_app/screens/loading_screen.dart';
 
 void main() {
@@ -15,7 +14,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      home: HomePage(),
+      home: LoadingScreen(),
       debugShowCheckedModeBanner: false,
     );
   }

@@ -1,13 +1,15 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, must_be_immutable
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
+import 'package:weather_app/models/weatherModel.dart';
 import 'package:weather_app/screens/voice.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key}) : super(key: key);
+  HomePage({Key? key, required this.model}) : super(key: key);
+  WeatherModel model;
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -15,23 +17,24 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   String cityName = "";
   int temperature = 0;
+  String message = "Good day";
 
   @override
   void initState() {
     super.initState();
+    updateUI();
   }
 
-  void updateUI(dynamic weatherData)  {
-    setState(()  {
-      if (weatherData == null) {
-        temperature = 0;
-        cityName = '';
-        return;
-      }
-      double temp =  weatherData['main']['temp'];
-      temperature = temp.toInt();
-      cityName = weatherData['name'];
+  void updateUI() {
+    setState(() {
+      cityName = widget.model.name ?? "Globe";
+      temperature = celsiusCalc(widget.model.main!.temp!.toInt());
+      message = widget.model.weather!.description!; 
     });
+  }
+
+  int celsiusCalc(int kelvin) {
+    return kelvin - 273;
   }
 
   @override
@@ -135,7 +138,7 @@ class _HomePageState extends State<HomePage> {
                     weight: FontWeight.bold),
               ),
               Text(
-                "Cloudy",
+                message,
                 style: appText(
                     color: textColor,
                     size: size.height / 35,
