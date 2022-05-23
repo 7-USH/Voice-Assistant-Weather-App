@@ -6,6 +6,7 @@ import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/weatherModel.dart';
 import 'package:weather_app/screens/voice.dart';
+import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key, required this.model}) : super(key: key);
@@ -18,6 +19,7 @@ class _HomePageState extends State<HomePage> {
   String cityName = "";
   int temperature = 0;
   String message = "Good day";
+  String date = "03-Mar-2022";
 
   @override
   void initState() {
@@ -29,7 +31,10 @@ class _HomePageState extends State<HomePage> {
     setState(() {
       cityName = widget.model.name ?? "Globe";
       temperature = celsiusCalc(widget.model.main!.temp!.toInt());
-      message = widget.model.weather!.description!; 
+      message = widget.model.weather!.description!;
+      DateTime today = DateTime.now();
+      DateFormat formatter = DateFormat("d-MMMM-yyyy");
+      date = formatter.format(today);
     });
   }
 
@@ -101,7 +106,7 @@ class _HomePageState extends State<HomePage> {
                 child: Column(
                   children: [
                     Text(
-                      "03-Mar-2022",
+                      date,
                       style: appText(
                           color: textColor, size: 15, weight: FontWeight.bold),
                     ),
