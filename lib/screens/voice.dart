@@ -13,7 +13,8 @@ import 'package:weather_app/widgets/glassbox.dart';
 import 'package:weather_app/widgets/messageblob.dart';
 
 class VoicePage extends StatefulWidget {
-  const VoicePage({Key? key}) : super(key: key);
+  VoicePage({Key? key, required this.model}) : super(key: key);
+  WeatherModel model;
 
   @override
   State<VoicePage> createState() => _VoicePageState();
@@ -26,7 +27,7 @@ class _VoicePageState extends State<VoicePage> {
   Color red = Colors.red;
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
-  List<Command> messages = [Command(text: "Good morning", who: Who.bot)];
+  List<Command> messages = [Command(text: "Hey there!", who: Who.bot)];
   late String _text;
   final ItemScrollController _scrollController = ItemScrollController();
   Enum who = Who.user;
@@ -189,22 +190,44 @@ class _VoicePageState extends State<VoicePage> {
 
                     if (_text.contains("weather") ||
                         _text.contains("Weather") ||
-                        _text.contains("temperature") || _text.contains("forecast")) {
-
+                        _text.contains("temperature") ||
+                        _text.contains("forecast")) {
+                          
                       getDetails(_text).then((value) {
                         var result = WeatherModel.fromJson(value);
 
                         if (result.weather == null) {
-                          setState(() {
-                            messages.add(Command(
-                                text: "Sorry there's some issue.",
-                                who: Who.bot));
-                             _isListening = false;
-                            _scrollController.scrollTo(
-                                index: messages.length - 1,
-                                curve: Curves.easeIn,
-                                duration: Duration(milliseconds: 1000));
-                          });
+                          if ((_text.contains("today's") &&
+                                  _text.contains("weather")) ||
+                              (_text.contains("today") &&
+                                  _text.contains("weather"))) {
+                            int? temp =
+                                celsiusCalc(widget.model.main?.temp?.toInt());
+                            String? placeName = widget.model.name;
+
+                            setState(() {
+                              messages.add(Command(
+                                  text:
+                                      "Showing the weather in $placeName for today",
+                                  who: Who.bot));
+                              messages.add(Command(
+                                  text: widget.model.weather?.description ??
+                                      "Sorry there's some issue.",
+                                  who: Who.bot,
+                                  temp: temp));
+                            });
+                          } else {
+                            setState(() {
+                              messages.add(Command(
+                                  text: "Sorry there's some issue.",
+                                  who: Who.bot));
+                            });
+                          }
+                          _isListening = false;
+                          _scrollController.scrollTo(
+                              index: messages.length - 1,
+                              curve: Curves.easeIn,
+                              duration: Duration(milliseconds: 1000));
                         } else {
                           setState(() {
                             String? description = result.weather?.description;
@@ -230,9 +253,11 @@ class _VoicePageState extends State<VoicePage> {
                                       "Sorry there's some issue.",
                                   temp: temp,
                                   who: Who.bot));
-                            }
-                            else if(_text.contains("forecast")){
-                              messages.add(Command(text: description ?? "Sorry there's some issue", who: Who.bot));
+                            } else if (_text.contains("forecast")) {
+                              messages.add(Command(
+                                  text:
+                                      description ?? "Sorry there's some issue",
+                                  who: Who.bot));
                             }
 
                             _isListening = false;
@@ -242,8 +267,6 @@ class _VoicePageState extends State<VoicePage> {
                                 duration: Duration(milliseconds: 1000));
                           });
                         }
-
-
                       });
                     } else {
                       messages.add(Command(text: "Excuze Me?", who: Who.bot));
