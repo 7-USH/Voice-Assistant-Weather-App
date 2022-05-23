@@ -22,7 +22,6 @@ class VoicePage extends StatefulWidget {
 class _VoicePageState extends State<VoicePage> {
   late SpeechToText _speechToText;
   bool _isListening = false;
-  bool onstatus = false;
   double _height = 0;
   Color red = Colors.red;
   final ItemPositionsListener itemPositionsListener =
@@ -156,7 +155,6 @@ class _VoicePageState extends State<VoicePage> {
             partialResults: false,
             onResult: (result) => setState(() {
                   _text = result.recognizedWords;
-                  _isListening = false;
                   if (_text != "") {
                     messages.add(Command(text: _text.trim(), who: Who.user));
 
@@ -168,6 +166,7 @@ class _VoicePageState extends State<VoicePage> {
                           String? description = result.weather?.description;
                           messages.add(Command(
                               text: description ?? "badlapur", who: Who.bot));
+                              _isListening = false;
                         });
                       });
                     }

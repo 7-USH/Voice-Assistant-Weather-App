@@ -41,6 +41,8 @@ dependencies:
   avatar_glow: ^2.0.2
   scrollable_positioned_list: ^0.3.2
   http: ^0.13.4
+  loading_animation_widget: ^1.2.0+1
+  geolocator: ^8.2.1
 
 dev_dependencies:
   flutter_test:

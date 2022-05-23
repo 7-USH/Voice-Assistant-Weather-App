@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -8,13 +8,32 @@ import 'package:weather_app/screens/voice.dart';
 
 class HomePage extends StatefulWidget {
   HomePage({Key? key}) : super(key: key);
-
   @override
   State<HomePage> createState() => _HomePageState();
 }
 
 class _HomePageState extends State<HomePage> {
-  
+  String cityName = "";
+  int temperature = 0;
+
+  @override
+  void initState() {
+    super.initState();
+  }
+
+  void updateUI(dynamic weatherData)  {
+    setState(()  {
+      if (weatherData == null) {
+        temperature = 0;
+        cityName = '';
+        return;
+      }
+      double temp =  weatherData['main']['temp'];
+      temperature = temp.toInt();
+      cityName = weatherData['name'];
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     final size = MediaQuery.of(context).size;
@@ -87,36 +106,40 @@ class _HomePageState extends State<HomePage> {
                       height: 10,
                     ),
                     Text(
-                      "Panjim, Goa",
+                      cityName,
                       style: appText(
                           color: Colors.white,
-                          size: size.height/25,
+                          size: size.height / 25,
                           weight: FontWeight.w600),
                     ),
                   ],
                 ),
               ),
               SizedBox(
-                height: size.height/35,
+                height: size.height / 35,
               ),
               Center(
                   child: Image.asset(
                 "assets/sun.png",
-                scale: size.height/1200,
+                scale: size.height / 1200,
               )),
               const SizedBox(
                 height: 20,
               ),
               Text(
-                "  29°",
+                "  $temperature°",
                 textAlign: TextAlign.left,
                 style: numText(
-                    color: textColor, size: size.height/8, weight: FontWeight.bold),
+                    color: textColor,
+                    size: size.height / 8,
+                    weight: FontWeight.bold),
               ),
               Text(
                 "Cloudy",
                 style: appText(
-                    color: textColor, size: size.height/35, weight: FontWeight.w600),
+                    color: textColor,
+                    size: size.height / 35,
+                    weight: FontWeight.w600),
               ),
             ],
           ),
