@@ -53,11 +53,26 @@ class _LoadingScreenState extends State<LoadingScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: bgColor,
-        body: Center(
-          child: LoadingAnimationWidget.threeArchedCircle(
-            color: textColor,
-            size: 50,
+        body: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topRight,
+              end: Alignment.bottomLeft,
+              stops: const [
+            0.1,
+            0.9
+          ],
+              colors: [
+                darkColor,
+                bgColor,
+              ]
+            )
+          ),
+          child: Center(
+            child: LoadingAnimationWidget.threeArchedCircle(
+              color:Colors.white,
+              size: 50,
+            ),
           ),
         ));
   }

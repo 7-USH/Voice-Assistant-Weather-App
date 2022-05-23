@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_element, avoid_print, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, unused_field
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_element, avoid_print, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -26,7 +26,7 @@ class _VoicePageState extends State<VoicePage> {
   Color red = Colors.red;
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
-  List<Command> messages = [Command(text: "Good morning", who: Who.bot,)];
+  List<Command> messages = [Command(text: "Good morning", who: Who.bot)];
   late String _text;
   final ItemScrollController _scrollController = ItemScrollController();
   Enum who = Who.user;
@@ -40,6 +40,13 @@ class _VoicePageState extends State<VoicePage> {
 
   Future<dynamic> getDetails(String query) async {
     return await weatherDetails.getData(query);
+  }
+
+  int? celsiusCalc(int? kelvin) {
+    if (kelvin == null) {
+      return null;
+    }
+    return kelvin - 273;
   }
 
   @override
@@ -82,21 +89,21 @@ class _VoicePageState extends State<VoicePage> {
       ),
       body: Container(
         decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topRight,
-            end: Alignment.bottomLeft,
-            stops: [
-             0.1,
+            gradient: LinearGradient(
+                begin: Alignment.topRight,
+                end: Alignment.bottomLeft,
+                stops: [
+              0.1,
               0.9
             ],
-            colors: [
-             darkColor,
-             bgColor,
-          ])
-        ),
+                colors: [
+              darkColor,
+              bgColor,
+            ])),
         child: Padding(
           padding: const EdgeInsets.only(left: 25, right: 20),
-          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+          child:
+              Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
             const SizedBox(
               height: 20,
             ),
@@ -138,7 +145,7 @@ class _VoicePageState extends State<VoicePage> {
                           return MessageBlob(
                             command: messages[index],
                             who: messages[index].who,
-                            temp: 20,
+                            temp: messages[index].temp,
                           );
                         }),
                   )),
@@ -181,23 +188,65 @@ class _VoicePageState extends State<VoicePage> {
                     messages.add(Command(text: _text.trim(), who: Who.user));
 
                     if (_text.contains("weather") ||
-                        _text.contains("Weather")) {
+                        _text.contains("Weather") ||
+                        _text.contains("temperature") || _text.contains("forecast")) {
+
                       getDetails(_text).then((value) {
                         var result = WeatherModel.fromJson(value);
-                        setState(() {
-                          String? description = result.weather?.description;
-                          messages.add(Command(
-                              text: description ?? "Sorry there's some issue.", who: Who.bot));
-                          _isListening = false;
-                          _scrollController.scrollTo(
-                              index: messages.length - 1,
-                              curve: Curves.easeIn,
-                              duration: Duration(milliseconds: 1000));
-                        });
+
+                        if (result.weather == null) {
+                          setState(() {
+                            messages.add(Command(
+                                text: "Sorry there's some issue.",
+                                who: Who.bot));
+                             _isListening = false;
+                            _scrollController.scrollTo(
+                                index: messages.length - 1,
+                                curve: Curves.easeIn,
+                                duration: Duration(milliseconds: 1000));
+                          });
+                        } else {
+                          setState(() {
+                            String? description = result.weather?.description;
+                            int? temp = celsiusCalc(result.main?.temp?.toInt());
+                            String? placeName = result.name;
+
+                            if (_text.contains("temperature") &&
+                                placeName != null) {
+                              messages.add(Command(
+                                  text:
+                                      "Current Temperature in $placeName is $temp °C",
+                                  who: Who.bot));
+                            } else if (_text.contains("weather")) {
+                              if (placeName != null) {
+                                messages.add(Command(
+                                    text:
+                                        "Showing the weather in $placeName for today",
+                                    who: Who.bot));
+                              }
+
+                              messages.add(Command(
+                                  text: description ??
+                                      "Sorry there's some issue.",
+                                  temp: temp,
+                                  who: Who.bot));
+                            }
+                            else if(_text.contains("forecast")){
+                              messages.add(Command(text: description ?? "Sorry there's some issue", who: Who.bot));
+                            }
+
+                            _isListening = false;
+                            _scrollController.scrollTo(
+                                index: messages.length - 1,
+                                curve: Curves.easeIn,
+                                duration: Duration(milliseconds: 1000));
+                          });
+                        }
+
+
                       });
                     } else {
-                      messages.add(Command(
-                          text: "Excuze Me?", who: Who.bot));
+                      messages.add(Command(text: "Excuze Me?", who: Who.bot));
                     }
                     _isListening = false;
                     _scrollController.scrollTo(

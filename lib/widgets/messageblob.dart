@@ -1,12 +1,14 @@
-// ignore_for_file: must_be_immutable
+// ignore_for_file: must_be_immutable, prefer_interpolation_to_compose_strings, prefer_const_constructors
 
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/command.dart';
 
 class MessageBlob extends StatefulWidget {
-  MessageBlob({Key? key, required this.command, required this.who, this.temp,this.id})
+  MessageBlob(
+      {Key? key, required this.command, required this.who, this.temp, this.id})
       : super(key: key);
   Command command;
   Enum who;
@@ -20,6 +22,21 @@ class MessageBlob extends StatefulWidget {
 class _MessageBlobState extends State<MessageBlob> {
   CrossAxisAlignment alignment = CrossAxisAlignment.start;
   Color messageColor = Colors.white12;
+  String date = "03-Mar-2022";
+
+  @override
+  void initState() {
+    super.initState();
+    updateUi();
+  }
+
+  void updateUi() {
+    setState(() {
+      DateTime today = DateTime.now();
+      DateFormat formatter = DateFormat("d MMM");
+      date = formatter.format(today);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -32,8 +49,7 @@ class _MessageBlobState extends State<MessageBlob> {
       padding: const EdgeInsets.all(10),
       child: Column(crossAxisAlignment: alignment, children: [
         Container(
-          padding: const EdgeInsets.all(18),
-          constraints: const BoxConstraints(maxWidth: 300),
+          constraints: const BoxConstraints(maxWidth: 310),
           decoration: BoxDecoration(
               color: blobColor,
               gradient: LinearGradient(
@@ -44,22 +60,53 @@ class _MessageBlobState extends State<MessageBlob> {
                     messageColor.withOpacity(0.5),
                   ]),
               borderRadius: BorderRadius.circular(20)),
-          child: widget.temp==null && widget.who==Who.bot ? Text(
-            widget.command.text,
-            textAlign: TextAlign.left,
-            style: messageFont(
-                color: Colors.white, size: 18, weight: FontWeight.normal),
-          ) : Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: [
-              Image.asset(
-                  "assets/weather/Sun_cloud_little_rain.png",
+          child: widget.temp == null
+              ? Padding(
+                  padding: const EdgeInsets.all(18.0),
+                  child: Text(
+                    widget.command.text,
+                    textAlign: TextAlign.left,
+                    style: messageFont(
+                        color: Colors.white,
+                        size: 18,
+                        weight: FontWeight.normal),
+                  ),
+                )
+              : Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Image.asset(
+                      "assets/weather/Sun_cloud_little_rain.png",
+                      scale: 7,
+                    ),
+                    Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Today, $date",
+                          style: botFont(
+                              color: Colors.white,
+                              size: 18,
+                              weight: FontWeight.normal),
+                        ),
+                        SizedBox(
+                          height: 2,
+                        ),
+                        Text(
+                          widget.temp.toString() + "°",
+                          
+                          style: botFont(
+                              color: Colors.white,
+                              size: 60,
+                              weight: FontWeight.bold),
+                        )
+                      ],
+                    )
+                  ],
                 ),
-                Column()
-            ],
-          ),
         )
       ]),
-    ) ;
+    );
   }
 }
