@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, must_be_immutable
+// ignore_for_file: prefer_const_literals_to_create_immutables, prefer_const_constructors_in_immutables, prefer_typing_uninitialized_variables, must_be_immutable, sized_box_for_whitespace, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -48,11 +48,11 @@ class _HomePageState extends State<HomePage> {
     return Scaffold(
         backgroundColor: bgColor,
         bottomNavigationBar: Container(
-          height: 90,
+          height: size.height/9,
           decoration: BoxDecoration(
               color: darkBgColor,
               borderRadius: const BorderRadius.only(
-                  topRight: Radius.circular(15), topLeft: Radius.circular(15))),
+                  topRight: Radius.circular(20), topLeft: Radius.circular(20))),
           child: Padding(
             padding: const EdgeInsets.all(10.0),
             child: Row(
@@ -99,57 +99,73 @@ class _HomePageState extends State<HomePage> {
           ),
         ),
         body: SafeArea(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.center,
-            children: [
-              FittedBox(
-                child: Column(
-                  children: [
-                    Text(
-                      date,
-                      style: appText(
-                          color: textColor, size: 15, weight: FontWeight.bold),
-                    ),
-                    const SizedBox(
-                      height: 10,
-                    ),
-                    Text(
-                      cityName,
-                      style: appText(
-                          color: Colors.white,
-                          size: size.height / 25,
-                          weight: FontWeight.w600),
-                    ),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: size.height / 35,
-              ),
-              Center(
-                  child: Image.asset(
-                "assets/sun-clouds-rain.png",
-                scale: size.height / 800,
-              )),
-              const SizedBox(
-                height: 20,
-              ),
-              Text(
-                "  $temperature°",
-                textAlign: TextAlign.left,
-                style: numText(
-                    color: textColor,
-                    size: size.height / 8,
-                    weight: FontWeight.bold),
-              ),
-              Text(
-                message,
-                style: appText(
-                    color: textColor,
-                    size: size.height / 35,
-                    weight: FontWeight.w600),
-              ),
+          child: Container(
+            decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            stops: [
+             0.1,
+              0.9
             ],
+            colors: [
+             darkColor,
+             bgColor,
+          ])
+        ),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: [
+                SizedBox(height: 20,),
+                FittedBox(
+                  child: Column(
+                    children: [
+                      Text(
+                        date,
+                        style: appText(
+                            color: textColor, size: 15, weight: FontWeight.bold),
+                      ),
+                      const SizedBox(
+                        height: 10,
+                      ),
+                      Text(
+                        cityName,
+                        style: appText(
+                            color: Colors.white,
+                            size: size.height / 25,
+                            weight: FontWeight.w600),
+                      ),
+                    ],
+                  ),
+                ),
+                SizedBox(
+                  height: size.height / 35,
+                ),
+                Center(
+                    child: Image.asset(
+                  "assets/sun.png",
+                  scale: 0.02,
+                )),
+                const SizedBox(
+                  height: 20,
+                ),
+                Text(
+                  "  $temperature°",
+                  textAlign: TextAlign.left,
+                  style: numText(
+                      color: textColor,
+                      size: size.height / 8,
+                      weight: FontWeight.bold),
+                ),
+                Text(
+                  message,
+                  style: appText(
+                      color: textColor,
+                      size: size.height / 35,
+                      weight: FontWeight.w600),
+                ),
+              ],
+            ),
           ),
         ));
   }

@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:weather_app/screens/loading_screen.dart';
 
 void main() {
+  Paint.enableDithering = true;
   runApp(const MyApp());
 }
 

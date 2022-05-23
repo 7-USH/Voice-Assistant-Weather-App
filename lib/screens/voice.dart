@@ -26,7 +26,7 @@ class _VoicePageState extends State<VoicePage> {
   Color red = Colors.red;
   final ItemPositionsListener itemPositionsListener =
       ItemPositionsListener.create();
-  List<Command> messages = [Command(text: "Good morning", who: Who.bot)];
+  List<Command> messages = [Command(text: "Good morning", who: Who.bot,)];
   late String _text;
   final ItemScrollController _scrollController = ItemScrollController();
   Enum who = Who.user;
@@ -57,10 +57,10 @@ class _VoicePageState extends State<VoicePage> {
           child: GestureDetector(
             onTap: _listen,
             child: Container(
-              height: 60,
-              width: 60,
+              height: 70,
+              width: 70,
               decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(35),
                   color: blobColor,
                   gradient: LinearGradient(colors: [
                     _isListening ? blobColor : red,
@@ -74,61 +74,80 @@ class _VoicePageState extends State<VoicePage> {
               ),
             ),
           )),
-      backgroundColor: bgColor,
+      backgroundColor: darkColor,
       appBar: AppBar(
         shadowColor: Colors.transparent,
         elevation: 0.0,
         backgroundColor: Colors.transparent,
       ),
-      body: Padding(
-        padding: const EdgeInsets.only(left: 20, right: 20),
-        child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
-          Text(
-            "Hello, \nmy name is Cody",
-            style: botFont(
-                color: Colors.white,
-                size: size.height / 20,
-                weight: FontWeight.w600),
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Text(
-            _isListening ? "Listening..." : "How can I help you?",
-            style: messageFont(
-                color: Colors.white54, size: 20, weight: FontWeight.w600),
-          ),
-          Stack(children: [
-            Container(
-                height: size.height / 2,
-                margin: EdgeInsets.only(top: 20),
-                decoration: BoxDecoration(
-                  color: Colors.transparent,
-                ),
-                alignment: Alignment.topRight,
-                child: NotificationListener<OverscrollIndicatorNotification>(
-                  onNotification: (overscroll) {
-                    overscroll.disallowIndicator();
-                    return true;
-                  },
-                  child: ScrollablePositionedList.builder(
-                      itemPositionsListener: itemPositionsListener,
-                      itemScrollController: _scrollController,
-                      physics: AlwaysScrollableScrollPhysics(),
-                      scrollDirection: Axis.vertical,
-                      itemCount: messages.length,
-                      itemBuilder: (context, index) {
-                        return MessageBlob(
-                          command: messages[index],
-                          who: messages[index].who,
-                        );
-                      }),
-                )),
-            GlassBox(
-              height: _height,
-            ),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topRight,
+            end: Alignment.bottomLeft,
+            stops: [
+             0.1,
+              0.9
+            ],
+            colors: [
+             darkColor,
+             bgColor,
           ])
-        ]),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.only(left: 25, right: 20),
+          child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              "Hello, \nmy name is Cody",
+              style: botFont(
+                  color: Colors.white,
+                  size: size.height / 22.5,
+                  weight: FontWeight.w600),
+            ),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              _isListening ? "Listening..." : "How can I help you?",
+              style: messageFont(
+                  color: Colors.white54, size: 20, weight: FontWeight.w600),
+            ),
+            Stack(children: [
+              Container(
+                  height: size.height / 1.9,
+                  margin: EdgeInsets.only(top: 20),
+                  decoration: BoxDecoration(
+                    color: Colors.transparent,
+                  ),
+                  alignment: Alignment.topRight,
+                  child: NotificationListener<OverscrollIndicatorNotification>(
+                    onNotification: (overscroll) {
+                      overscroll.disallowIndicator();
+                      return true;
+                    },
+                    child: ScrollablePositionedList.builder(
+                        itemPositionsListener: itemPositionsListener,
+                        itemScrollController: _scrollController,
+                        physics: AlwaysScrollableScrollPhysics(),
+                        scrollDirection: Axis.vertical,
+                        itemCount: messages.length,
+                        itemBuilder: (context, index) {
+                          return MessageBlob(
+                            command: messages[index],
+                            who: messages[index].who,
+                            temp: 20,
+                          );
+                        }),
+                  )),
+              GlassBox(
+                height: _height,
+              ),
+            ])
+          ]),
+        ),
       ),
     );
   }
@@ -155,6 +174,7 @@ class _VoicePageState extends State<VoicePage> {
         await _speechToText.listen(
             cancelOnError: true,
             partialResults: false,
+            pauseFor: Duration(seconds: 4),
             onResult: (result) => setState(() {
                   _text = result.recognizedWords;
                   if (_text != "") {
@@ -177,9 +197,9 @@ class _VoicePageState extends State<VoicePage> {
                       });
                     } else {
                       messages.add(Command(
-                          text: "Excuze Me.", who: Who.bot));
+                          text: "Excuze Me?", who: Who.bot));
                     }
-
+                    _isListening = false;
                     _scrollController.scrollTo(
                         index: messages.length,
                         curve: Curves.easeIn,
@@ -187,7 +207,7 @@ class _VoicePageState extends State<VoicePage> {
 
                     if (itemPositionsListener
                             .itemPositions.value.first.itemLeadingEdge <
-                        1) {
+                        0) {
                       _height = 50;
                     }
                   }

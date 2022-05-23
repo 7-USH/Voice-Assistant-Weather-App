@@ -6,10 +6,12 @@ import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/command.dart';
 
 class MessageBlob extends StatefulWidget {
-  MessageBlob({Key? key, required this.command, required this.who})
+  MessageBlob({Key? key, required this.command, required this.who, this.temp,this.id})
       : super(key: key);
   Command command;
   Enum who;
+  int? temp;
+  int? id;
 
   @override
   State<MessageBlob> createState() => _MessageBlobState();
@@ -17,7 +19,7 @@ class MessageBlob extends StatefulWidget {
 
 class _MessageBlobState extends State<MessageBlob> {
   CrossAxisAlignment alignment = CrossAxisAlignment.start;
-  Color messageColor = botBlobColor;
+  Color messageColor = Colors.white12;
 
   @override
   Widget build(BuildContext context) {
@@ -31,20 +33,33 @@ class _MessageBlobState extends State<MessageBlob> {
       child: Column(crossAxisAlignment: alignment, children: [
         Container(
           padding: const EdgeInsets.all(18),
-          constraints: const BoxConstraints(maxWidth: 200),
+          constraints: const BoxConstraints(maxWidth: 300),
           decoration: BoxDecoration(
               color: blobColor,
               gradient: LinearGradient(
-                  colors: [messageColor, messageColor.withOpacity(0.6)]),
+                  end: Alignment.bottomRight,
+                  begin: Alignment.topLeft,
+                  colors: [
+                    messageColor,
+                    messageColor.withOpacity(0.5),
+                  ]),
               borderRadius: BorderRadius.circular(20)),
-          child: Text(
+          child: widget.temp==null && widget.who==Who.bot ? Text(
             widget.command.text,
             textAlign: TextAlign.left,
             style: messageFont(
                 color: Colors.white, size: 18, weight: FontWeight.normal),
+          ) : Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Image.asset(
+                  "assets/weather/Sun_cloud_little_rain.png",
+                ),
+                Column()
+            ],
           ),
         )
       ]),
-    );
+    ) ;
   }
 }
