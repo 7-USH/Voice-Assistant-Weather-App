@@ -85,8 +85,10 @@ class _VoicePageState extends State<VoicePage> {
         child: Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           Text(
             "Hello, \nmy name is Cody",
-            style:
-                botFont(color: Colors.white, size: 38, weight: FontWeight.w600),
+            style: botFont(
+                color: Colors.white,
+                size: size.height / 20,
+                weight: FontWeight.w600),
           ),
           const SizedBox(
             height: 20,
@@ -165,15 +167,24 @@ class _VoicePageState extends State<VoicePage> {
                         setState(() {
                           String? description = result.weather?.description;
                           messages.add(Command(
-                              text: description ?? "badlapur", who: Who.bot));
-                              _isListening = false;
+                              text: description ?? "Sorry there's some issue.", who: Who.bot));
+                          _isListening = false;
+                          _scrollController.scrollTo(
+                              index: messages.length - 1,
+                              curve: Curves.easeIn,
+                              duration: Duration(milliseconds: 1000));
                         });
                       });
+                    } else {
+                      messages.add(Command(
+                          text: "Excuze Me.", who: Who.bot));
                     }
+
                     _scrollController.scrollTo(
-                        index: messages.length - 1,
+                        index: messages.length,
                         curve: Curves.easeIn,
                         duration: Duration(milliseconds: 1000));
+
                     if (itemPositionsListener
                             .itemPositions.value.first.itemLeadingEdge <
                         1) {

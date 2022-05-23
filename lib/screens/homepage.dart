@@ -128,8 +128,8 @@ class _HomePageState extends State<HomePage> {
               ),
               Center(
                   child: Image.asset(
-                "assets/sun.png",
-                scale: size.height / 1200,
+                "assets/sun-clouds-rain.png",
+                scale: size.height / 800,
               )),
               const SizedBox(
                 height: 20,

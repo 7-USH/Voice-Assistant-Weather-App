@@ -39,7 +39,7 @@ class _MessageBlobState extends State<MessageBlob> {
               borderRadius: BorderRadius.circular(20)),
           child: Text(
             widget.command.text,
-            textAlign: TextAlign.justify,
+            textAlign: TextAlign.left,
             style: messageFont(
                 color: Colors.white, size: 18, weight: FontWeight.normal),
           ),
