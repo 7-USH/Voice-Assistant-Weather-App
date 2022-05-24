@@ -1,4 +1,4 @@
-// ignore_for_file: avoid_print, unnecessary_new, import_of_legacy_library_into_null_safe
+// ignore_for_file: avoid_print, unnecessary_new, import_of_legacy_library_into_null_safe, unused_local_variable
 
 import 'package:geolocator/geolocator.dart';
 import 'package:geocoding/geocoding.dart';
@@ -10,28 +10,19 @@ class Location {
   Future<List<double>> getCurrentLocation() async {
     List<double> coordinates = [];
     try {
-      bool serviceEnabled;
-      LocationPermission permission;
-
-      serviceEnabled = await Geolocator.isLocationServiceEnabled();
-
-      if (!serviceEnabled) {
-        return Future.error('Location Service are disabled');
+      LocationPermission permission = await Geolocator.checkPermission();
+      Position currentPosition;
+      if (permission == LocationPermission.denied ||
+          permission == LocationPermission.deniedForever) {
+        print("Permission denied");
+        Geolocator.requestPermission();
+      } else {
+        Position position = await Geolocator.getCurrentPosition(
+            desiredAccuracy: LocationAccuracy.best);
+        coordinates.add(position.latitude);
+        coordinates.add(position.longitude);
+        return coordinates;
       }
-
-      permission = await Geolocator.checkPermission();
-      if (permission == LocationPermission.denied) {
-        permission = await Geolocator.requestPermission();
-        if (permission == LocationPermission.denied) {
-          return Future.error('Location permissions are denied');
-        }
-      }
-
-      Position position = await Geolocator.getCurrentPosition(
-          desiredAccuracy: LocationAccuracy.medium);
-      coordinates.add(position.latitude);
-      coordinates.add(position.longitude);
-      return coordinates;
     } catch (e) {
       print(e);
     }
