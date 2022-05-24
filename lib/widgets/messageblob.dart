@@ -5,6 +5,7 @@ import 'package:intl/intl.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/command.dart';
+import 'package:weather_app/models/weather_image.dart';
 
 class MessageBlob extends StatefulWidget {
   MessageBlob(
@@ -23,6 +24,7 @@ class _MessageBlobState extends State<MessageBlob> {
   CrossAxisAlignment alignment = CrossAxisAlignment.start;
   Color messageColor = Colors.white12;
   String date = "03-Mar-2022";
+  String image = "assets/weather/Zaps.png";
 
   @override
   void initState() {
@@ -35,6 +37,7 @@ class _MessageBlobState extends State<MessageBlob> {
       DateTime today = DateTime.now();
       DateFormat formatter = DateFormat("d MMM");
       date = formatter.format(today);
+      image = imagePath(id: widget.id ?? 501);
     });
   }
 
@@ -76,12 +79,12 @@ class _MessageBlobState extends State<MessageBlob> {
                   mainAxisAlignment: MainAxisAlignment.start,
                   children: [
                     Image.asset(
-                      "assets/weather/Sun_cloud_little_rain.png",
+                      image,
                       scale: 7,
                     ),
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
-                      mainAxisAlignment: MainAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
                           "Today, $date",
@@ -95,7 +98,6 @@ class _MessageBlobState extends State<MessageBlob> {
                         ),
                         Text(
                           widget.temp.toString() + "°",
-                          
                           style: botFont(
                               color: Colors.white,
                               size: 60,

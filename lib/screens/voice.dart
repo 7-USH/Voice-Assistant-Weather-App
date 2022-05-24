@@ -1,4 +1,4 @@
-// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_element, avoid_print, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers
+// ignore_for_file: sized_box_for_whitespace, non_constant_identifier_names, unused_element, avoid_print, avoid_unnecessary_containers, prefer_const_literals_to_create_immutables, prefer_const_constructors, unnecessary_null_comparison, unused_field, unused_local_variable, no_leading_underscores_for_local_identifiers, must_be_immutable
 import 'package:avatar_glow/avatar_glow.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
@@ -147,6 +147,7 @@ class _VoicePageState extends State<VoicePage> {
                             command: messages[index],
                             who: messages[index].who,
                             temp: messages[index].temp,
+                            id: messages[index].id,
                           );
                         }),
                   )),
@@ -182,7 +183,7 @@ class _VoicePageState extends State<VoicePage> {
         await _speechToText.listen(
             cancelOnError: true,
             partialResults: false,
-            pauseFor: Duration(seconds: 4),
+            pauseFor: Duration(seconds: 3),
             onResult: (result) => setState(() {
                   _text = result.recognizedWords;
                   if (_text != "") {
@@ -192,7 +193,6 @@ class _VoicePageState extends State<VoicePage> {
                         _text.contains("Weather") ||
                         _text.contains("temperature") ||
                         _text.contains("forecast")) {
-                          
                       getDetails(_text).then((value) {
                         var result = WeatherModel.fromJson(value);
 
@@ -232,6 +232,7 @@ class _VoicePageState extends State<VoicePage> {
                           setState(() {
                             String? description = result.weather?.description;
                             int? temp = celsiusCalc(result.main?.temp?.toInt());
+                            int? id = result.weather?.id?.toInt();
                             String? placeName = result.name;
 
                             if (_text.contains("temperature") &&
@@ -252,6 +253,7 @@ class _VoicePageState extends State<VoicePage> {
                                   text: description ??
                                       "Sorry there's some issue.",
                                   temp: temp,
+                                  id: id,
                                   who: Who.bot));
                             } else if (_text.contains("forecast")) {
                               messages.add(Command(

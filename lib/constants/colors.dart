@@ -17,9 +17,7 @@ List<BoxShadow> kBoxShadows = [
       offset: const Offset(5, 10),
       spreadRadius: 3,
       blurRadius: 12),
-  BoxShadow(
-      color: Colors.white.withOpacity(0.8),
-      blurRadius: 5)
+  BoxShadow(color: Colors.white.withOpacity(0.8), blurRadius: 5)
 ];
 
 List<BoxShadow> kButtonShadows = [
@@ -29,3 +27,22 @@ List<BoxShadow> kButtonShadows = [
       spreadRadius: 1,
       blurRadius: 8)
 ];
+
+String bigRainDrops = "assets/weather/Big rain drops.png";
+String bigSnow = "assets/weather/Big snow.png";
+String cloudZap = "assets/weather/Cloud 3 zap.png";
+String mildSnowFastWinds = "assets/weather/Mild Snow fast winds.png";
+String moonCloudFastWind = "assets/weather/Moon cloud fast wind.png";
+String moonCloudMidRain = "assets/weather/Moon cloud mid rain.png";
+String moonFastWind = "assets/weather/Moon fast wind.png";
+String sunCloudAngledRain = "assets/weather/Sun cloud angled rain.png";
+String sunCloudMidRain = "assets/weather/Sun cloud mid rain.png";
+String tornado = "assets/weather/Tornado.png";
+String zaps = "assets/weather/Zaps.png";
+String sunCloudLittleRain = "assets/weather/Sun_cloud_little_rain.png";
+String clearSky = "assets/weather/clear.png";
+String clearSky2 = "assets/weather/clear2.png";
+String night = "assets/weather/night.png";
+String sunClear = "assets/weather/sun-clouds.png";
+String sun = "assets/weather/sun.png";
+String sunny = "assets/weather/sunny.png";
