@@ -149,7 +149,7 @@ class _HomePageState extends State<HomePage> {
                 Center(
                     child: Image.asset(
                   image,
-                  scale: 0.02,
+                  scale: 3,
                 )),
                 Text(
                   "  $temperature°",

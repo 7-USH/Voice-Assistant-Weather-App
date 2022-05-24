@@ -16,7 +16,7 @@ String imagePath({required int id}) {
     if (id >= 762) {
       return tornado;
     }
-    return mildSnowFastWinds;
+    return moonFastWind;
   } else if (id == 800) {
     return sunCloudAngledRain;
   }
@@ -39,7 +39,7 @@ String homeImagePath({required int id}) {
     if (id >= 762) {
       return tornado;
     }
-    return mildSnowFastWinds;
+    return moonFastWind;
   } else if (id == 800) {
     return sunClear;
   }
