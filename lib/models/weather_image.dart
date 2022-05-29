@@ -23,25 +23,25 @@ String imagePath({required int id}) {
   return sunCloudLittleRain;
 }
 
-String homeImagePath({required int id}) {
+Map<String, double> homeImagePath({required int id}) {
   if (id >= 200 && id <= 232) {
-    return cloudZap;
+    return {cloudZap: 1};
   } else if (id >= 300 && id <= 321) {
-    return sunCloudMidRain;
+    return {sunCloudMidRain: 1};
   } else if (id >= 500 && id <= 531) {
-    return bigRainDrops;
+    return {bigRainDrops: 1};
   } else if (id >= 600 && id <= 622) {
     if (id >= 620) {
-      return bigSnow;
+      return {bigSnow: 1};
     }
-    return moonCloudFastWind;
+    return {moonCloudFastWind: 1};
   } else if (id >= 701 && id <= 781) {
     if (id >= 762) {
-      return tornado;
+      return {tornado: 1};
     }
-    return moonFastWind;
+    return {moonFastWind: 1};
   } else if (id == 800) {
-    return sunClear;
+    return {sunClear: 1.5};
   }
-  return sun;
+  return {sun: 1.5};
 }

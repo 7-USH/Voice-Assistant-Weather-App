@@ -46,3 +46,4 @@ String night = "assets/weather/night.png";
 String sunClear = "assets/weather/sun-clouds.png";
 String sun = "assets/weather/sun.png";
 String sunny = "assets/weather/sunny.png";
+

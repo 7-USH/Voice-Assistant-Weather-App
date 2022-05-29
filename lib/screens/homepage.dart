@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
   int temperature = 0;
   String message = "Good day";
   String date = "03-Mar-2022";
-  String image = "assets/weather/Zaps.png";
+  Map image = {"assets/weather/Zaps.png": 3};
 
   @override
   void initState() {
@@ -148,8 +148,8 @@ class _HomePageState extends State<HomePage> {
                 ),
                 Center(
                     child: Image.asset(
-                  image,
-                  scale: 3,
+                  image.keys.elementAt(0),
+                  scale: image.values.elementAt(0),
                 )),
                 Text(
                   "  $temperature°",
