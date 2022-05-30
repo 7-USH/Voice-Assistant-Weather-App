@@ -6,6 +6,7 @@ import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/weatherModel.dart';
 import 'package:weather_app/models/weather_image.dart';
+import 'package:weather_app/screens/detailweather.dart';
 import 'package:weather_app/screens/voice.dart';
 import 'package:intl/intl.dart';
 
@@ -93,7 +94,11 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return ForeCastDetails(model: widget.model);
+                      }));
+                    },
                     icon: const Icon(
                       FontAwesomeIcons.bars,
                       color: Colors.white,

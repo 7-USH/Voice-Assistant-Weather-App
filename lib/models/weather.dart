@@ -13,4 +13,14 @@ class WeatherDetails {
     }
     return "error";
   }
+
+  Future<dynamic> getNextData(String city) async {
+    http.Response response = await http.get(Uri.parse(
+        'https://api.openweathermap.org/data/2.5/forecast?q=$city&appid=acc9068ec2056e6e17c02844aa9ca5b8'));
+    if (response.statusCode == 200) {
+      dynamic data = await jsonDecode(response.body);
+      return data['list'];
+    }
+    return Future.error("There's some issue");
+  }
 }

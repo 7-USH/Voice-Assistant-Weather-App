@@ -41,7 +41,7 @@ Map<String, double> homeImagePath({required int id}) {
     }
     return {moonFastWind: 1};
   } else if (id == 800) {
-    return {sunClear: 1.5};
+    return {sunClear: 1};
   }
-  return {sun: 1.5};
+  return {sun: 1};
 }
