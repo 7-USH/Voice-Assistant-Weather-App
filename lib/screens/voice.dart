@@ -21,7 +21,7 @@ class VoicePage extends StatefulWidget {
 }
 
 class _VoicePageState extends State<VoicePage> {
-  late SpeechToText _speechToText;
+  final SpeechToText _speechToText = SpeechToText();
   bool _isListening = false;
   double _height = 0;
   Color red = Colors.red;
@@ -32,12 +32,6 @@ class _VoicePageState extends State<VoicePage> {
   final ItemScrollController _scrollController = ItemScrollController();
   Enum who = Who.user;
   WeatherDetails weatherDetails = WeatherDetails();
-
-  @override
-  void initState() {
-    super.initState();
-    _speechToText = SpeechToText();
-  }
 
   Future<dynamic> getDetails(String query) async {
     return await weatherDetails.getData(query);
@@ -181,11 +175,12 @@ class _VoicePageState extends State<VoicePage> {
           _isListening = true;
         });
         await _speechToText.listen(
-            cancelOnError: true,
+            listenMode: ListenMode.confirmation,
             partialResults: false,
             pauseFor: Duration(seconds: 3),
             onResult: (result) => setState(() {
                   _text = result.recognizedWords;
+
                   if (_text != "") {
                     messages.add(Command(text: _text.trim(), who: Who.user));
 
@@ -288,10 +283,10 @@ class _VoicePageState extends State<VoicePage> {
                 }));
       }
     } else {
+      await _speechToText.stop();
       setState(() {
         _isListening = false;
       });
-      _speechToText.stop();
     }
   }
 }

@@ -58,7 +58,14 @@ class TodaysDetail extends StatelessWidget {
                 child: Text(
                   celsiusCalc(temp).toString() + "°",
                   style: GoogleFonts.acme(color: Colors.white,fontWeight: FontWeight.normal,
-                      shadows: kButtonShadows),
+                  shadows: [
+                        BoxShadow(
+                            color: Colors.black.withOpacity(0.2),
+                            offset: const Offset(0.4, 2),
+                            spreadRadius: 1,
+                            blurRadius: 8)
+                      ]
+                      ),
                 ),
               ),
             ),

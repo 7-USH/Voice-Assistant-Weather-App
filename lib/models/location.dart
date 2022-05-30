@@ -35,9 +35,8 @@ class Location {
     }
 
     Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.high,
-        timeLimit: const Duration(seconds: 10),
-        forceAndroidLocationManager: true);
+        desiredAccuracy: LocationAccuracy.best,
+        forceAndroidLocationManager: false);
 
     if (position == null) {
       return [0, 0];
