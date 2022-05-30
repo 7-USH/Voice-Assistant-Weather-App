@@ -36,6 +36,7 @@ class Location {
 
     Position position = await Geolocator.getCurrentPosition(
         desiredAccuracy: LocationAccuracy.high,
+        timeLimit: const Duration(seconds: 10),
         forceAndroidLocationManager: true);
 
     if (position == null) {
@@ -54,6 +55,10 @@ class GeoCoder {
     List<Placemark> placemarks = await placemarkFromCoordinates(
         coords[0], coords[1],
         localeIdentifier: "en");
-    return placemarks[0].locality;
+    if (placemarks.length > 1) {
+      return placemarks[placemarks.length - 1].locality;
+    } else {
+      return placemarks[0].locality;
+    }
   }
 }
