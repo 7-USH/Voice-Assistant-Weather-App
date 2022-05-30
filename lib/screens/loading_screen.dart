@@ -1,4 +1,5 @@
-// ignore_for_file: use_build_context_synchronously, unused_local_variable, avoid_print
+// ignore_for_file: prefer_const_constructors_in_immutables, avoid_print
+
 import 'package:flutter/material.dart';
 import 'package:loading_animation_widget/loading_animation_widget.dart';
 import 'package:weather_app/constants/colors.dart';
@@ -8,7 +9,7 @@ import 'package:weather_app/models/weatherModel.dart';
 import 'package:weather_app/screens/homepage.dart';
 
 class LoadingScreen extends StatefulWidget {
-  const LoadingScreen({Key? key}) : super(key: key);
+  LoadingScreen({Key? key}) : super(key: key);
 
   @override
   State<LoadingScreen> createState() => _LoadingScreenState();
@@ -16,46 +17,51 @@ class LoadingScreen extends StatefulWidget {
 
 class _LoadingScreenState extends State<LoadingScreen> {
   Location location = Location();
-  GeoCoder geoCoder = GeoCoder();
+  GeoCoder coder = GeoCoder();
   WeatherDetails weatherDetails = WeatherDetails();
 
   @override
   void initState() {
     super.initState();
-    getCurrentCoords().then((value) {
-      getCurrentCity(value).then((n) {
+    pushToNextPage();
+  }
+
+  Future<void> pushToNextPage() async {
+    getCurrentCoordinates().then((value) {
+      getCurrenCity(value).then((n) {
         print(n);
         String query = "Weather in $n";
-        getDetails(query).then((value) {
-          var result = WeatherModel.fromJson(value);
+        getDetails(query).then((v) {
+          var result = WeatherModel.fromJson(v);
           Navigator.push(context, MaterialPageRoute(builder: (_) {
             return HomePage(model: result);
           }));
-        });     
+        });
       });
     });
   }
 
   Future<dynamic> getDetails(String query) async {
-    return await weatherDetails.getData(query);
+    var result = await weatherDetails.getData(query);
+    return result;
   }
 
-  Future<dynamic> getCurrentCoords() async {
+  Future<dynamic> getCurrentCoordinates() async {
     List<double> coords = await location.getCurrentLocation();
     return coords;
   }
 
-  Future<dynamic> getCurrentCity(List<double> coords) async {
-    var result = await geoCoder.getPlacemarks(coords);
-    return result;
+  Future<dynamic> getCurrenCity(List<double> coords) async {
+    var result = await coder.getPlacemarks(coords);
+    return result.toString();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
         body: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
+      decoration: BoxDecoration(
+          gradient: LinearGradient(
               begin: Alignment.topRight,
               end: Alignment.bottomLeft,
               stops: const [
@@ -63,17 +69,15 @@ class _LoadingScreenState extends State<LoadingScreen> {
             0.9
           ],
               colors: [
-                darkColor,
-                bgColor,
-              ]
-            )
-          ),
-          child: Center(
-            child: LoadingAnimationWidget.threeArchedCircle(
-              color:Colors.white,
-              size: 50,
-            ),
-          ),
-        ));
+            darkColor,
+            bgColor,
+          ])),
+      child: Center(
+        child: LoadingAnimationWidget.threeArchedCircle(
+          color: Colors.white,
+          size: 50,
+        ),
+      ),
+    ));
   }
 }
