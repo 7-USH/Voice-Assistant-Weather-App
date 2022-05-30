@@ -67,7 +67,7 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return MapScreen(coords: widget.coords,);
+                        return MapScreen(coords: widget.coords,model: widget.model,);
                       }));
                     },
                     icon: const Icon(
