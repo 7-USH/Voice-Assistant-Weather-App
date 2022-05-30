@@ -7,12 +7,14 @@ import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/weatherModel.dart';
 import 'package:weather_app/models/weather_image.dart';
 import 'package:weather_app/screens/detailweather.dart';
+import 'package:weather_app/screens/map_screen.dart';
 import 'package:weather_app/screens/voice.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, required this.model}) : super(key: key);
+  HomePage({Key? key, required this.model,required this.coords}) : super(key: key);
   WeatherModel model;
+  List<double> coords;
   @override
   State<HomePage> createState() => _HomePageState();
 }
@@ -63,7 +65,11 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 IconButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.push(context, MaterialPageRoute(builder: (_) {
+                        return MapScreen(coords: widget.coords,);
+                      }));
+                    },
                     icon: const Icon(
                       FontAwesomeIcons.mapLocationDot,
                       color: Colors.white,

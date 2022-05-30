@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
 import 'package:weather_app/models/weather_image.dart';
@@ -47,14 +48,19 @@ class TodaysDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              todayTime() + ":00       ",
+              todayTime() + ":00",
               style: numText(
-                  color: Colors.white, size: 20, weight: FontWeight.normal),
+                  color: Colors.white, size: 22, weight: FontWeight.normal),
             ),
-            Text(
-              celsiusCalc(temp).toString() + "°",
-              style: numText(
-                  color: Colors.white, size: 40, weight: FontWeight.normal),
+            Expanded(
+              child: FittedBox(
+                fit: BoxFit.cover,
+                child: Text(
+                  celsiusCalc(temp).toString() + "°",
+                  style: GoogleFonts.acme(color: Colors.white,fontWeight: FontWeight.normal,
+                      shadows: kButtonShadows),
+                ),
+              ),
             ),
           ],
         )

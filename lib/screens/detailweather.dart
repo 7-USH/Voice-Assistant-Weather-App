@@ -2,6 +2,7 @@
 
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:weather_app/constants/colors.dart';
@@ -41,9 +42,7 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
         models.add(MoreDetails.fromJson(value[i]));
         if (dateParser(models[i].dtTxt!) == d) {
           today.add(models[i]);
-          setState(() {
-            
-          });
+          setState(() {});
         }
       }
       getWeekInfo();
@@ -63,9 +62,7 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
         d++;
       }
     }
-    setState(() {
-      
-    });
+    setState(() {});
   }
 
   String dateParser(String date) {
@@ -142,67 +139,80 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
                 Expanded(
                   flex: 1,
                   child: Container(
-                    child: ListView.builder(
-                        itemCount: today.length,
-                        physics: BouncingScrollPhysics(),
-                        scrollDirection: Axis.horizontal,
-                        itemBuilder: ((context, index) {
-                          return !_isLoading ?  TodaysDetail(
-                              temp: today[index].main!.temp!.toInt(),
-                              id: today[index].weather![0].id!.toInt(),
-                              time: today[index].dtTxt.toString()) : 
-                              Shimmer.fromColors(
-                                baseColor: Colors.grey.shade300,
-                                  highlightColor: Colors.grey.shade100,
+                    child: !_isLoading
+                        ? ListView.builder(
+                            itemCount: today.length,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: ((context, index) {
+                              return TodaysDetail(
+                                  temp: today[index].main!.temp!.toInt(),
+                                  id: today[index].weather![0].id!.toInt(),
+                                  time: today[index].dtTxt.toString());
+                            }))
+                        : ListView.builder(
+                            itemCount: 7,
+                            physics: BouncingScrollPhysics(),
+                            scrollDirection: Axis.horizontal,
+                            itemBuilder: ((context, index) {
+                              return Shimmer.fromColors(
+                                baseColor: Colors.white,
+                                highlightColor: Colors.grey.shade100,
                                 child: Container(
                                   width: 200,
-                                    padding: const EdgeInsets.all(8),
-                                    margin:
-                                        const EdgeInsets.only(right: 15, top: 10),
-                                    decoration: BoxDecoration(
-                                        color: blobColor,
-                                        gradient: LinearGradient(
-                                            end: Alignment.bottomRight,
-                                            begin: Alignment.topLeft,
-                                            colors: [
-                                              Colors.white12,
-                                              Colors.white12.withOpacity(0.5),
-                                            ]),
-                                        borderRadius: BorderRadius.circular(20)),
-                                    child: Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceAround,
-                                        children: [
-                                          Image.asset(
-                                            imagePath(id: 301),
-                                            color: Colors.transparent,
-                                          ),
-                                          Column(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.center,
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                " " + "         ",
-                                                style: numText(
-                                                    color: Colors.white,
-                                                    size: 20,
-                                                    weight: FontWeight.normal),
+                                  padding: const EdgeInsets.all(8),
+                                  margin:
+                                      const EdgeInsets.only(right: 15, top: 10),
+                                  decoration: BoxDecoration(
+                                      color: blobColor,
+                                      gradient: LinearGradient(
+                                          end: Alignment.bottomRight,
+                                          begin: Alignment.topLeft,
+                                          colors: [
+                                            Colors.white12,
+                                            Colors.white12.withOpacity(0.5),
+                                          ]),
+                                      borderRadius: BorderRadius.circular(20)),
+                                  child: Row(
+                                      mainAxisAlignment:
+                                          MainAxisAlignment.spaceAround,
+                                      children: [
+                                        Image.asset(
+                                          imagePath(id: 301),
+                                          color: Colors.transparent,
+                                        ),
+                                        Column(
+                                          mainAxisAlignment:
+                                              MainAxisAlignment.center,
+                                          crossAxisAlignment:
+                                              CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              " " + "         ",
+                                              style: numText(
+                                                  color: Colors.white,
+                                                  size: 20,
+                                                  weight: FontWeight.normal),
+                                            ),
+                                            Expanded(
+                                              child: FittedBox(
+                                                fit: BoxFit.cover,
+                                                child: Text(
+                                                  " ",
+                                                  style: GoogleFonts.acme(
+                                                      color: Colors.white,
+                                                      fontWeight:
+                                                          FontWeight.normal,
+                                                      shadows: kButtonShadows),
+                                                ),
                                               ),
-                                              Text(
-                                                "",
-                                                style: numText(
-                                                    color: Colors.white,
-                                                    size: 40,
-                                                    weight: FontWeight.normal),
-                                              ),
-                                            ],
-                                          )
-                                        ]),
+                                            ),
+                                          ],
+                                        )
+                                      ]),
                                 ),
                               );
-                        })),
+                            })),
                   ),
                 ),
                 SizedBox(
@@ -231,78 +241,82 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
                 Expanded(
                   flex: 4,
                   child: Container(
-                    child: ListView.builder(
-                        itemCount: week.length,
-                        scrollDirection: Axis.vertical,
-                        physics: BouncingScrollPhysics(),
-                        itemBuilder: ((context, index) {
-                          return !_isLoading ? 
-                            NextDetails(
-                              date: week[index].dtTxt.toString(),
-                              id: week[index].weather![0].id!.toInt(),
-                              temp: week[index].main!.temp!.toInt()) 
-
-                              : Shimmer.fromColors(
+                    child: !_isLoading
+                        ? ListView.builder(
+                            itemCount: week.length,
+                            scrollDirection: Axis.vertical,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: ((context, index) {
+                              return NextDetails(
+                                  date: week[index].dtTxt.toString(),
+                                  id: week[index].weather![0].id!.toInt(),
+                                  temp: week[index].main!.temp!.toInt());
+                            }))
+                        : ListView.builder(
+                            itemCount: 4,
+                            scrollDirection: Axis.vertical,
+                            physics: BouncingScrollPhysics(),
+                            itemBuilder: ((context, index) {
+                              return Shimmer.fromColors(
                                 baseColor: Colors.grey.shade300,
                                 highlightColor: Colors.grey.shade100,
                                 child: Container(
-                                    width: double.infinity,
-                                    margin: const EdgeInsets.only(
-                                        bottom: 10, top: 10),
-                                    decoration: BoxDecoration(
-                                        color: blobColor,
-                                        gradient: LinearGradient(
-                                            end: Alignment.bottomRight,
-                                            begin: Alignment.topLeft,
-                                            colors: [
-                                              Colors.white12,
-                                              Colors.white12.withOpacity(0.5),
-                                            ]),
-                                        borderRadius: BorderRadius.circular(20),
-                                        
-                                        ),
-                                        child: Row(
-                                      mainAxisAlignment:
-                                          MainAxisAlignment.spaceAround,
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.center,
-                                      children: [
-                                        Spacer(),
-                                        Column(
-                                          children: [
-                                            // ignore: prefer_const_constructors
-                                            Text("",
-                                                style: appText(
-                                                    color: Colors.white,
-                                                    size: 18,
-                                                    weight: FontWeight.bold)),
-                                            Text(
-                                              "",
+                                  width: double.infinity,
+                                  margin: const EdgeInsets.only(
+                                      bottom: 10, top: 10),
+                                  decoration: BoxDecoration(
+                                    color: blobColor,
+                                    gradient: LinearGradient(
+                                        end: Alignment.bottomRight,
+                                        begin: Alignment.topLeft,
+                                        colors: [
+                                          Colors.white12,
+                                          Colors.white12.withOpacity(0.5),
+                                        ]),
+                                    borderRadius: BorderRadius.circular(20),
+                                  ),
+                                  child: Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceAround,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.center,
+                                    children: [
+                                      Spacer(),
+                                      Column(
+                                        children: [
+                                          // ignore: prefer_const_constructors
+                                          Text("",
                                               style: appText(
                                                   color: Colors.white,
-                                                  size: 15,
-                                                  weight: FontWeight.normal),
-                                            )
-                                          ],
-                                        ),
-                                        Spacer(),
-                                        Text(
-                                          " ",
-                                          style: numText(
-                                              color: Colors.white,
-                                              size: 45,
-                                              weight: FontWeight.normal),
-                                        ),
-                                        Image.asset(
-                                          imagePath(id: 301),
-                                          scale: 7,
-                                          color: Colors.transparent,
-                                        )
-                                      ],
-                                    ),
+                                                  size: 18,
+                                                  weight: FontWeight.bold)),
+                                          Text(
+                                            "",
+                                            style: appText(
+                                                color: Colors.white,
+                                                size: 15,
+                                                weight: FontWeight.normal),
+                                          )
+                                        ],
+                                      ),
+                                      Spacer(),
+                                      Text(
+                                        " ",
+                                        style: numText(
+                                            color: Colors.white,
+                                            size: 45,
+                                            weight: FontWeight.normal),
+                                      ),
+                                      Image.asset(
+                                        imagePath(id: 301),
+                                        scale: 7,
+                                        color: Colors.transparent,
+                                      )
+                                    ],
+                                  ),
                                 ),
                               );
-                        })),
+                            })),
                   ),
                 )
               ],

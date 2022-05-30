@@ -34,7 +34,10 @@ class _LoadingScreenState extends State<LoadingScreen> {
         getDetails(query).then((v) {
           var result = WeatherModel.fromJson(v);
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return HomePage(model: result);
+            return HomePage(
+              model: result,
+              coords: value,
+            );
           }));
         });
       });
