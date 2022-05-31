@@ -102,12 +102,18 @@ class _VoicePageState extends State<VoicePage> {
             const SizedBox(
               height: 20,
             ),
-            Text(
-              "Hello, \nmy name is Cody",
-              style: botFont(
-                  color: Colors.white,
-                  size: size.height / 22.5,
-                  weight: FontWeight.w600),
+            Flexible(
+              child: Container(
+                constraints: BoxConstraints(maxWidth: size.width-100),
+                child: Text(
+                  "Hello, \nmy name is Cody",
+                  textAlign: TextAlign.left,
+                  style: botFont(
+                      color: Colors.white,
+                      size: size.height/25,
+                      weight: FontWeight.w600),
+                ),
+              ),
             ),
             const SizedBox(
               height: 20,
@@ -117,38 +123,40 @@ class _VoicePageState extends State<VoicePage> {
               style: messageFont(
                   color: Colors.white54, size: 20, weight: FontWeight.w600),
             ),
-            Stack(children: [
-              Container(
-                  height: size.height / 1.9,
-                  margin: EdgeInsets.only(top: 20),
-                  decoration: BoxDecoration(
-                    color: Colors.transparent,
-                  ),
-                  alignment: Alignment.topRight,
-                  child: NotificationListener<OverscrollIndicatorNotification>(
-                    onNotification: (overscroll) {
-                      overscroll.disallowIndicator();
-                      return true;
-                    },
-                    child: ScrollablePositionedList.builder(
-                        itemPositionsListener: itemPositionsListener,
-                        itemScrollController: _scrollController,
-                        physics: AlwaysScrollableScrollPhysics(),
-                        scrollDirection: Axis.vertical,
-                        itemCount: messages.length,
-                        itemBuilder: (context, index) {
-                          return MessageBlob(
-                            command: messages[index],
-                            who: messages[index].who,
-                            temp: messages[index].temp,
-                            id: messages[index].id,
-                          );
-                        }),
-                  )),
-              GlassBox(
-                height: _height,
-              ),
-            ])
+            Expanded(
+              child: Stack(children: [
+                Container(
+                    // height: size.height / 1.9,,
+                    margin: EdgeInsets.only(top: 20,bottom: AppBar().preferredSize.height+70),
+                    decoration: BoxDecoration(
+                      color: Colors.transparent,
+                    ),
+                    alignment: Alignment.topRight,
+                    child: NotificationListener<OverscrollIndicatorNotification>(
+                      onNotification: (overscroll) {
+                        overscroll.disallowIndicator();
+                        return true;
+                      },
+                      child: ScrollablePositionedList.builder(
+                          itemPositionsListener: itemPositionsListener,
+                          itemScrollController: _scrollController,
+                          physics: AlwaysScrollableScrollPhysics(),
+                          scrollDirection: Axis.vertical,
+                          itemCount: messages.length,
+                          itemBuilder: (context, index) {
+                            return MessageBlob(
+                              command: messages[index],
+                              who: messages[index].who,
+                              temp: messages[index].temp,
+                              id: messages[index].id,
+                            );
+                          }),
+                    )),
+                GlassBox(
+                  height: _height,
+                ),
+              ]),
+            )
           ]),
         ),
       ),

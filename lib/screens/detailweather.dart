@@ -31,11 +31,6 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
   @override
   void initState() {
     _isLoading = true;
-    Future.delayed(const Duration(seconds: 5), () {
-      setState(() {
-        _isLoading = false;
-      });
-    });
     getMoreDetails().then((value) {
       String d = todayDate();
       for (int i = 0; i < value.length; i++) {
@@ -46,6 +41,10 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
         }
       }
       getWeekInfo();
+      _isLoading = false;
+      setState(() {
+        
+      });
     });
     super.initState();
   }
@@ -157,14 +156,14 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
                             itemBuilder: ((context, index) {
                               return Shimmer.fromColors(
                                 baseColor: Colors.white,
-                                highlightColor: Colors.grey.shade100,
+                                highlightColor: Colors.white12,
                                 child: Container(
                                   width: 200,
                                   padding: const EdgeInsets.all(8),
                                   margin:
                                       const EdgeInsets.only(right: 15, top: 10),
                                   decoration: BoxDecoration(
-                                      color: blobColor,
+                                      color: Colors.white,
                                       gradient: LinearGradient(
                                           end: Alignment.bottomRight,
                                           begin: Alignment.topLeft,
@@ -258,14 +257,14 @@ class _ForeCastDetailsState extends State<ForeCastDetails> {
                             physics: BouncingScrollPhysics(),
                             itemBuilder: ((context, index) {
                               return Shimmer.fromColors(
-                                baseColor: Colors.grey.shade300,
-                                highlightColor: Colors.grey.shade100,
+                                baseColor: Colors.white,
+                                highlightColor: Colors.white12,
                                 child: Container(
                                   width: double.infinity,
                                   margin: const EdgeInsets.only(
                                       bottom: 10, top: 10),
                                   decoration: BoxDecoration(
-                                    color: blobColor,
+                                    color: Colors.white,
                                     gradient: LinearGradient(
                                         end: Alignment.bottomRight,
                                         begin: Alignment.topLeft,

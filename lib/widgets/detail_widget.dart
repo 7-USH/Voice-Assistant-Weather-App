@@ -1,4 +1,4 @@
-// ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable, prefer_interpolation_to_compose_strings
+// ignore_for_file: prefer_const_literals_to_create_immutables, must_be_immutable, prefer_interpolation_to_compose_strings, prefer_const_constructors
 
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -39,7 +39,7 @@ class TodaysDetail extends StatelessWidget {
                 Colors.white12.withOpacity(0.5),
               ]),
           borderRadius: BorderRadius.circular(20)),
-      child: Row(mainAxisAlignment: MainAxisAlignment.spaceAround, children: [
+      child: Row(mainAxisAlignment: MainAxisAlignment.spaceEvenly, children: [
         Image.asset(
           imagePath(id: id),
         ),
@@ -48,24 +48,25 @@ class TodaysDetail extends StatelessWidget {
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             Text(
-              todayTime() + ":00",
+              " " + todayTime() + ":00",
               style: numText(
-                  color: Colors.white, size: 22, weight: FontWeight.normal),
+                  color: Colors.white, size: 20, weight: FontWeight.normal),
             ),
             Expanded(
               child: FittedBox(
                 fit: BoxFit.cover,
                 child: Text(
                   celsiusCalc(temp).toString() + "°",
-                  style: GoogleFonts.acme(color: Colors.white,fontWeight: FontWeight.normal,
-                  shadows: [
+                  style: GoogleFonts.acme(
+                      color: Colors.white,
+                      fontWeight: FontWeight.normal,
+                      shadows: [
                         BoxShadow(
                             color: Colors.black.withOpacity(0.2),
                             offset: const Offset(0.4, 2),
                             spreadRadius: 1,
                             blurRadius: 8)
-                      ]
-                      ),
+                      ]),
                 ),
               ),
             ),

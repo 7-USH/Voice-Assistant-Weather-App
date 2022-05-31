@@ -12,7 +12,8 @@ import 'package:weather_app/screens/voice.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
-  HomePage({Key? key, required this.model,required this.coords}) : super(key: key);
+  HomePage({Key? key, required this.model, required this.coords})
+      : super(key: key);
   WeatherModel model;
   List<double> coords;
   @override
@@ -67,7 +68,10 @@ class _HomePageState extends State<HomePage> {
                 IconButton(
                     onPressed: () {
                       Navigator.push(context, MaterialPageRoute(builder: (_) {
-                        return MapScreen(coords: widget.coords,model: widget.model,);
+                        return MapScreen(
+                          coords: widget.coords,
+                          model: widget.model,
+                        );
                       }));
                     },
                     icon: const Icon(
@@ -130,9 +134,10 @@ class _HomePageState extends State<HomePage> {
                 ])),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
               children: [
                 SizedBox(
-                  height: 20,
+                  height: 15,
                 ),
                 FittedBox(
                   child: Column(
@@ -157,25 +162,25 @@ class _HomePageState extends State<HomePage> {
                     ],
                   ),
                 ),
-                Center(
-                    child: Image.asset(
+                Image.asset(
                   image.keys.elementAt(0),
+                  filterQuality: FilterQuality.high,
                   scale: image.values.elementAt(0),
-                )),
-                Text(
-                  "  $temperature°",
-                  textAlign: TextAlign.left,
-                  style: numText(
-                      color: textColor,
-                      size: size.height / 8,
-                      weight: FontWeight.bold),
                 ),
+                Text(
+                    "  $temperature°",
+                    textAlign: TextAlign.left,
+                    style: numText(
+                        color: textColor,
+                        size: size.height/8,
+                        weight: FontWeight.bold),
+                  ),
                 Expanded(
                   child: Text(
                     message,
                     style: appText(
                         color: textColor,
-                        size: size.height / 35,
+                        size: size.height/35,
                         weight: FontWeight.w600),
                   ),
                 ),

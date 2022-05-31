@@ -1,6 +1,7 @@
 // ignore_for_file: prefer_const_constructors, duplicate_ignore, must_be_immutable, prefer_interpolation_to_compose_strings
 
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
 import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/constants/fonts.dart';
@@ -64,35 +65,43 @@ class NextDetails extends StatelessWidget {
               ]),
           borderRadius: BorderRadius.circular(20)),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+        mainAxisAlignment: MainAxisAlignment.spaceEvenly,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Spacer(),
-          Column(
-            children: [
-              // ignore: prefer_const_constructors
-              Text(day(),
-                  style: appText(
-                      color: Colors.white,
-                      size: 18,
-                      weight: FontWeight.bold)),
-              Text(
-                dayDate(),
-                style: appText(
-                    color: Colors.white, size: 15, weight: FontWeight.normal),
-              )
-            ],
-          ),
-          Spacer(),
+           Column(
+              children: [
+                FittedBox(
+                  fit: BoxFit.contain,
+                  child: Text(day(),
+                      style: GoogleFonts.ubuntu(
+                          color: Colors.white,
+                          fontSize: 16,
+                          fontWeight: FontWeight.bold,
+                          shadows: kButtonShadows)),
+                ),
+                Text(
+                  dayDate(),
+                  style: GoogleFonts.ubuntu(
+                    color: Colors.white,
+                    fontWeight: FontWeight.normal,
+                    shadows: kButtonShadows),
+                )
+              ],
+                   ),
+                   Spacer(),
           Text(
             celsiusCalc(temp).toString()+"°",
-            style: numText(
-                color: Colors.white, size: 45, weight: FontWeight.normal),
+            style: GoogleFonts.acme(
+                color: Colors.white,
+                fontSize: 40,
+                fontWeight: FontWeight.normal,
+                shadows: kButtonShadows),
           ),
           Image.asset(
             imagePath(id: id),
             scale: 7,
-          )
+          ),
         ],
       ),
     );
