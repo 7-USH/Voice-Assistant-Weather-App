@@ -102,17 +102,15 @@ class _VoicePageState extends State<VoicePage> {
             const SizedBox(
               height: 20,
             ),
-            Flexible(
-              child: Container(
-                constraints: BoxConstraints(maxWidth: size.width-100),
-                child: Text(
-                  "Hello, \nmy name is Cody",
-                  textAlign: TextAlign.left,
-                  style: botFont(
-                      color: Colors.white,
-                      size: size.height/25,
-                      weight: FontWeight.w600),
-                ),
+            Container(
+              constraints: BoxConstraints(maxWidth: size.width-100),
+              child: Text(
+                "Hello, \nmy name is Cody",
+                textAlign: TextAlign.left,
+                style: botFont(
+                    color: Colors.white,
+                    size: size.height/25,
+                    weight: FontWeight.w600),
               ),
             ),
             const SizedBox(
