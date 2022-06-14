@@ -51,13 +51,22 @@ class Location {
 
 class GeoCoder {
   Future<dynamic> getPlacemarks(List<double> coords) async {
-    List<Placemark> placemarks = await placemarkFromCoordinates(
-        coords[0], coords[1],
-        localeIdentifier: "en");
-    if (placemarks.length > 1) {
-      return placemarks[placemarks.length - 1].locality;
-    } else {
-      return placemarks[0].locality;
+    try {
+      List<Placemark> placemarks = await placemarkFromCoordinates(
+          coords[0], coords[1],
+          localeIdentifier: "en");
+
+      if (placemarks == null) {
+        return coords;
+      }
+
+      if (placemarks.length > 1) {
+        return placemarks[placemarks.length - 1].locality;
+      } else {
+        return placemarks[0].locality;
+      }
+    } catch (e) {
+      return coords;
     }
   }
 }

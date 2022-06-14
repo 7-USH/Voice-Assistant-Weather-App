@@ -6,6 +6,7 @@ import 'package:weather_app/constants/colors.dart';
 import 'package:weather_app/models/location.dart';
 import 'package:weather_app/models/weather.dart';
 import 'package:weather_app/models/weatherModel.dart';
+import 'package:weather_app/screens/error_page.dart';
 import 'package:weather_app/screens/homepage.dart';
 
 class LoadingScreen extends StatefulWidget {
@@ -30,16 +31,30 @@ class _LoadingScreenState extends State<LoadingScreen> {
     getCurrentCoordinates().then((value) {
       getCurrenCity(value).then((n) {
         print(n);
-        String query = "Weather in $n";
-        getDetails(query).then((v) {
-          var result = WeatherModel.fromJson(v);
+        if (n is String) {
+          String query = "Weather in ${n.toString()}";
+          getDetails(query).then((v) {
+            var result = WeatherModel.fromJson(v);
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return HomePage(
+                model: result,
+                coords: value,
+              );
+            }));
+          });
+        } else if (n is List<double>) {
+          weatherDetails.getNextDataLatLon(n).then((v) {
+            var result = WeatherModel.fromJson(v);
+            Navigator.push(context, MaterialPageRoute(builder: (_) {
+              return HomePage(model: result, coords: value);
+            }));
+          });
+        }
+        else {
           Navigator.push(context, MaterialPageRoute(builder: (_) {
-            return HomePage(
-              model: result,
-              coords: value,
-            );
+            return const ErrorPage();
           }));
-        });
+        }
       });
     });
   }
@@ -56,7 +71,7 @@ class _LoadingScreenState extends State<LoadingScreen> {
 
   Future<dynamic> getCurrenCity(List<double> coords) async {
     var result = await coder.getPlacemarks(coords);
-    return result.toString();
+    return result;
   }
 
   @override

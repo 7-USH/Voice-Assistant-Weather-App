@@ -1,5 +1,6 @@
 // ignore_for_file: prefer_const_constructors
 import 'package:flutter/material.dart';
+import 'package:weather_app/screens/error_page.dart';
 import 'package:weather_app/screens/loading_screen.dart';
 
 void main() {

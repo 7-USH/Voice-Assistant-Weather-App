@@ -23,4 +23,14 @@ class WeatherDetails {
     }
     return Future.error("There's some issue");
   }
+
+  Future<dynamic> getNextDataLatLon(List<double> coords) async {
+    http.Response response = await http.get(Uri.parse(
+        "https://api.openweathermap.org/data/2.5/weather?lat=${coords[0]}&lon=${coords[1]}&appid=acc9068ec2056e6e17c02844aa9ca5b8"));
+    if (response.statusCode == 200) {
+      dynamic data = await jsonDecode(response.body);
+      return data;
+    }
+    return Future.error("There was an error");
+  }
 }
